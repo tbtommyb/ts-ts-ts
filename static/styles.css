@@ -1,17 +1,32 @@
 #grid {
-  border: 1px solid black;
-  display: flex;
-  justify-content: center;
+  border: 1px solid #D0D0D0;
+  width: 700px;
+  padding: 20px;
+  background: #EFEFEF;
+  margin: 2em auto;
 }
 
 .row {
   display: flex;
+  height: 2em;
+  align-items: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.row.bpm-input {
+  margin-bottom: 1em;
+}
+
+.cells {
+  display: flex;
 }
 
 .cell {
-  width: 1em;
-  height: 1em;
-  border: 1px solid gray;
+  width: 2em;
+  height: 2em;
+  border: 1px solid #F0F0F0;
+  background: white;
 }
 
 .cell.current {
@@ -26,10 +41,41 @@
   background: orange;
 }
 
+.cell:nth-child(5), .cell:nth-child(9), .cell:nth-child(13) {
+  border-left: 1px solid red;
+}
+
 div {
   box-sizing: border-box;
 }
 
 .centre {
   margin: auto;
+}
+
+.label {
+  font-weight: bold;
+  font-family: sans-serif;
+  padding: 0 .4em;
+}
+
+.label.instrument-label {
+  width: 100%;
+  text-align: right;
+}
+
+.label.bpm-label {
+  font-size: 1.2em;
+}
+
+.bpm-input input {
+  font-size: 1.2em;
+  width: 3em;
+}
+
+#name {
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 2em;
+  font-style: italic;
 }

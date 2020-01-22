@@ -11,11 +11,28 @@ import {
 } from "rxjs/operators";
 import { BehaviorSubject } from "rxjs";
 
-import { bpmSource$, gridClicks$, setCurrent, setSelection } from "./interface";
-import { SoundManager } from "./sounds";
+import {
+  bpmSource$,
+  gridClicks$,
+  setCurrent,
+  setSelection,
+  initialiseGrid
+} from "./interface";
+import { SoundManager, InstrumentIdent } from "./sounds";
 
 const STEPS = 16;
 const DEFAULT_BPM = 60;
+const INSTRUMENTS: Array<InstrumentIdent> = [
+  "closed-hihat",
+  "open-hihat",
+  "rimshot",
+  "clap",
+  "hi-tom",
+  "medium-tom",
+  "low-tom",
+  "snare",
+  "kick"
+];
 
 const bpmToInterval = (bpm: number) => {
   return (60 / bpm) * 250;
@@ -24,6 +41,8 @@ const bpmToInterval = (bpm: number) => {
 const bpmSubject$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
 
 const sm = new SoundManager(STEPS);
+
+initialiseGrid(INSTRUMENTS);
 
 bpmSource$
   .pipe(
@@ -52,7 +71,7 @@ const stepper$ = bpmSubject$
 gridClicks$
   .pipe(
     pluck("target", "id"),
-    map((id: string) => id.match(/cell-(\w+)-(\d+)/)),
+    map((id: string) => id.match(/cell-([\w-]+)-(\d+)/)),
     filter(v => v !== null)
   )
   .subscribe(([id, instrument, beat]) => {

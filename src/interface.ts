@@ -1,11 +1,12 @@
 import { fromEvent } from "rxjs";
+import { InstrumentIdent } from "./sounds";
 
 // TODO: replace with React
 const bpmInput = document.getElementById("bpm");
-const cells = document.querySelectorAll(".cell");
 const grid = document.getElementById("grid");
 
 export const resetCurrent = () => {
+  const cells = document.querySelectorAll(".cell");
   for (let i = 0; i < cells.length; i++) {
     cells[i].classList.remove("current");
   }
@@ -13,7 +14,9 @@ export const resetCurrent = () => {
 
 export const setCurrent = (n: number) => {
   resetCurrent();
-  document.getElementById(`cell-kick-${n}`).classList.add("current");
+  document
+    .querySelectorAll(`[id^='cell-'][id$='-${n}']`)
+    .forEach(cell => cell.classList.add("current"));
 };
 
 export const setSelection = (id: string) => {
@@ -22,3 +25,25 @@ export const setSelection = (id: string) => {
 
 export const bpmSource$ = fromEvent(bpmInput, "input");
 export const gridClicks$ = fromEvent(grid, "click");
+
+export const initialiseGrid = (instruments: Array<InstrumentIdent>) => {
+  instruments.forEach(instrument => {
+    let rowElement = document.createElement("div");
+    rowElement.classList.add("row", "align-center");
+    rowElement.id = `row-${instrument}`;
+    let label = document.createElement("p");
+    label.classList.add("label", "instrument-label");
+    label.innerHTML = instrument;
+    rowElement.appendChild(label);
+    let wrapper = document.createElement("div");
+    wrapper.classList.add("cells");
+    for (let i = 0; i < 16; i++) {
+      let cell = document.createElement("div");
+      cell.classList.add("cell");
+      cell.id = `cell-${instrument}-${i}`;
+      wrapper.appendChild(cell);
+    }
+    rowElement.appendChild(wrapper);
+    grid.appendChild(rowElement);
+  });
+};
