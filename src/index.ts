@@ -1,7 +1,6 @@
 import { interval } from "rxjs";
 import {
   filter,
-  pipe,
   take,
   map,
   repeat,
@@ -12,12 +11,8 @@ import {
 } from "rxjs/operators";
 import { BehaviorSubject } from "rxjs";
 
-import {
-  bpmSource$,
-  gridClicks$,
-  setCurrent,
-  setSelection
-} from "./interface.ts";
+import { bpmSource$, gridClicks$, setCurrent, setSelection } from "./interface";
+import { SoundManager } from "./sounds";
 
 const STEPS = 16;
 const DEFAULT_BPM = 60;
@@ -28,6 +23,8 @@ const bpmToInterval = (bpm: number) => {
 
 const bpmSubject$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
 
+const sm = new SoundManager(STEPS);
+
 bpmSource$
   .pipe(
     pluck("target", "value"),
@@ -35,8 +32,9 @@ bpmSource$
     distinctUntilChanged(),
     map(v => +v)
   )
-  .subscribe(v => bpmSubject$.next(bpmToInterval(+v)));
+  .subscribe(v => bpmSubject$.next(bpmToInterval(v)));
 
+// TODO: fix TS errors here
 bpmSubject$.subscribe(stepper$);
 
 const stepper$ = bpmSubject$
@@ -46,11 +44,18 @@ const stepper$ = bpmSubject$
     repeat(),
     v => v
   )
-  .subscribe(x => setCurrent(x));
+  .subscribe(x => {
+    setCurrent(x);
+    sm.trigger(x);
+  });
 
 gridClicks$
   .pipe(
     pluck("target", "id"),
-    filter(id => id.includes("cell-"))
+    map((id: string) => id.match(/cell-(\w+)-(\d+)/)),
+    filter(v => v !== null)
   )
-  .subscribe(id => setSelection(id));
+  .subscribe(([id, instrument, beat]) => {
+    setSelection(id);
+    sm.toggleBeat(instrument, +beat);
+  });

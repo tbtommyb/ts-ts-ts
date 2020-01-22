@@ -13,7 +13,7 @@ export const resetCurrent = () => {
 
 export const setCurrent = (n: number) => {
   resetCurrent();
-  document.getElementById(`cell-0-${n}`).classList.add("current");
+  document.getElementById(`cell-kick-${n}`).classList.add("current");
 };
 
 export const setSelection = (id: string) => {
