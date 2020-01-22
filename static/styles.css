@@ -18,6 +18,14 @@
   background: yellow;
 }
 
+.cell.selected {
+  background: red;
+}
+
+.cell.current.selected {
+  background: orange;
+}
+
 div {
   box-sizing: border-box;
 }
