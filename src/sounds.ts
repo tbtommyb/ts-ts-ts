@@ -1,27 +1,31 @@
-const kick = require("./sounds/bd01.wav");
-const closedHH = require("./sounds/hh01.wav");
-const openHH = require("./sounds/oh01.wav");
-const clap = require("./sounds/cp01.wav");
-const hiTom = require("./sounds/ht01.wav");
-const medTom = require("./sounds/mt01.wav");
-const lowTom = require("./sounds/lt01.wav");
-const rimshot = require("./sounds/rs01.wav");
-const snare = require("./sounds/sd04.wav");
+import { Howl, Howler } from "howler";
+
+const kick = new Howl({ src: require("./sounds/bd01.wav") });
+const closedHH = new Howl({ src: require("./sounds/hh01.wav") });
+const openHH = new Howl({ src: require("./sounds/oh01.wav") });
+const clap = new Howl({ src: require("./sounds/cp01.wav") });
+const hiTom = new Howl({ src: require("./sounds/ht01.wav") });
+const medTom = new Howl({ src: require("./sounds/mt01.wav") });
+const lowTom = new Howl({ src: require("./sounds/lt01.wav") });
+const rimshot = new Howl({ src: require("./sounds/rs01.wav") });
+const snare = new Howl({ src: require("./sounds/sd04.wav") });
 
 export type InstrumentIdent = string;
 
 class Instrument {
   ident: InstrumentIdent;
-  sound: HTMLAudioElement;
+  sound: Howl;
+  id: number;
   constructor(ident: InstrumentIdent, sound: HTMLAudioElement) {
     this.ident = ident;
     this.sound = sound;
   }
 
   trigger() {
-    this.sound.pause();
-    this.sound.currentTime = 0;
-    this.sound.play();
+    if (this.sound.playing(this.id)) {
+      this.sound.fade(1, 0, 0.1, this.id);
+    }
+    this.id = this.sound.play();
   }
 }
 
@@ -31,25 +35,16 @@ export class SoundManager {
 
   constructor(steps: number) {
     // TODO: need to figure out best place to initialise Audio objects
-    this.sounds = new Map<InstrumentIdent, Instrument>();
-    this.sounds.set("kick", new Instrument("kick", new Audio(kick)));
-    this.sounds.set(
-      "closed-hihat",
-      new Instrument("closed-hihat", new Audio(closedHH))
-    );
-    this.sounds.set(
-      "open-hihat",
-      new Instrument("open-hihat", new Audio(openHH))
-    );
-    this.sounds.set("clap", new Instrument("clap", new Audio(clap)));
-    this.sounds.set("hi-tom", new Instrument("hi-tom", new Audio(hiTom)));
-    this.sounds.set(
-      "medium-tom",
-      new Instrument("medium-tom", new Audio(medTom))
-    );
-    this.sounds.set("low-tom", new Instrument("low-tom", new Audio(lowTom)));
-    this.sounds.set("rimshot", new Instrument("rimshot", new Audio(rimshot)));
-    this.sounds.set("snare", new Instrument("snare", new Audio(snare)));
+    this.sounds = new Map<InstrumentIdent, Howl>();
+    this.sounds.set("kick", new Instrument("kick", kick));
+    this.sounds.set("closed-hihat", new Instrument("closed-hihat", closedHH));
+    this.sounds.set("open-hihat", new Instrument("open-hihat", openHH));
+    this.sounds.set("clap", new Instrument("clap", clap));
+    this.sounds.set("hi-tom", new Instrument("hi-tom", hiTom));
+    this.sounds.set("medium-tom", new Instrument("medium-tom", medTom));
+    this.sounds.set("low-tom", new Instrument("low-tom", lowTom));
+    this.sounds.set("rimshot", new Instrument("rimshot", rimshot));
+    this.sounds.set("snare", new Instrument("snare", snare));
     this.beats = new Array<Set<InstrumentIdent>>(steps);
   }
 
@@ -62,7 +57,6 @@ export class SoundManager {
       return;
     }
     this.beats[beat].forEach(sound => {
-      console.log(sound);
       this.triggerSound(sound);
     });
   }
