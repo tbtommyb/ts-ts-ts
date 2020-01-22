@@ -15,7 +15,6 @@ import { BehaviorSubject } from "rxjs";
 import {
   bpmSource$,
   gridClicks$,
-  resetCurrent,
   setCurrent,
   setSelection
 } from "./interface.ts";
@@ -47,10 +46,7 @@ const stepper$ = bpmSubject$
     repeat(),
     v => v
   )
-  .subscribe(x => {
-    resetCurrent();
-    setCurrent(x);
-  });
+  .subscribe(x => setCurrent(x));
 
 gridClicks$
   .pipe(
