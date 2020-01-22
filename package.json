@@ -1,0 +1,13 @@
+{
+  "name": "ts-ts-ts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Tom Johnson <tom@tmjohnson.co.uk>",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "rxjs": "^6.5.4"
+  }
+}
