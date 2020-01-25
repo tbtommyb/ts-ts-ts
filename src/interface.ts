@@ -1,5 +1,5 @@
 import { fromEvent } from "rxjs";
-import { InstrumentIdent } from "./sounds";
+import Instrument from "./Instrument";
 
 // TODO: replace with React
 const bpmInput = document.getElementById("bpm");
@@ -26,8 +26,8 @@ export const setSelection = (id: string) => {
 export const bpmSource$ = fromEvent(bpmInput, "input");
 export const gridClicks$ = fromEvent(grid, "click");
 
-export const initialiseGrid = (instruments: Array<InstrumentIdent>) => {
-  instruments.forEach(instrument => {
+export const initialiseGrid = () => {
+  for (let instrument in Instrument) {
     let rowElement = document.createElement("div");
     rowElement.classList.add("row", "align-center");
     rowElement.id = `row-${instrument}`;
@@ -45,5 +45,5 @@ export const initialiseGrid = (instruments: Array<InstrumentIdent>) => {
     }
     rowElement.appendChild(wrapper);
     grid.appendChild(rowElement);
-  });
+  };
 };
