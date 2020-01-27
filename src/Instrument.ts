@@ -1,5 +1,13 @@
 enum Instrument {
-  ClosedHH, OpenHH, Rimshot, Clap, HiTom, MediumTom, LowTom, Snare, Kick
+  ClosedHH = "ClosedHH",
+  OpenHH = "OpenHH",
+  Rimshot = "Rimshot",
+  Clap = "Clap",
+  HiTom = "HiTom",
+  MediumTom = "MediumTom",
+  LowTom = "LowTom",
+  Snare = "Snare",
+  Kick = "Kick"
 };
 
 export default Instrument;
