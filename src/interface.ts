@@ -1,9 +1,15 @@
-import { fromEvent } from "rxjs";
+import { fromEvent, Observable } from "rxjs";
 import Instrument from "./Instrument";
 
 // TODO: replace with React
 const bpmInput = document.getElementById("bpm");
+if (bpmInput == null) {
+  throw new Error("Could not find BPM element")
+}
 const grid = document.getElementById("grid");
+if (grid == null) {
+  throw new Error("Could not find grid element")
+}
 
 export const resetCurrent = () => {
   const cells = document.querySelectorAll(".cell");
@@ -20,11 +26,16 @@ export const setCurrent = (n: number) => {
 };
 
 export const setSelection = (id: string) => {
-  document.getElementById(id).classList.toggle("selected");
+  const cell = document.getElementById(id);
+  if (cell == null) {
+    console.log(`setSelection: cell ID ${id} is invalid`)
+    return
+  }
+  cell.classList.toggle("selected");
 };
 
-export const bpmSource$ = fromEvent(bpmInput, "input");
-export const gridClicks$ = fromEvent(grid, "click");
+export const bpmSource$: Observable<Event> = fromEvent(bpmInput, "input");
+export const gridClicks$: Observable<Event> = fromEvent(grid, "click");
 
 export const initialiseGrid = () => {
   for (let instrument in Instrument) {
