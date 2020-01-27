@@ -22,6 +22,17 @@ initialiseGrid();
 
 const steps$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
 
+/* TODO:
+inputs$ is merge(bpmSource$, pauseClicks$)
+handles paused state and BPM
+bpmSource$ outputs { bpm: bpmToInterval(value), ...state }
+pauseClicks$ outputs { paused: true | false, ...state }
+.subscribe { steps$.next(state.bpm) }
+
+separate beats$ = merge(steps$, inputs$)??
+.subscribe { set NEVER or interval depending on state.paused }
+*/
+
 const actions$ = merge(steps$, pauseClicks$);
 actions$.pipe(
   tap(e => console.log(e)),
