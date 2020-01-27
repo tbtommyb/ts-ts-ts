@@ -1,18 +1,19 @@
-import { interval } from "rxjs";
-import { filter, take, map, repeat, debounceTime, pluck, switchMap, distinctUntilChanged } from "rxjs/operators";
+import { interval, merge, NEVER } from "rxjs";
+import { tap, filter, take, map, repeat, debounceTime, pluck, switchMap, distinctUntilChanged } from "rxjs/operators";
 import { BehaviorSubject } from "rxjs";
 
-import { bpmSource$, gridClicks$, setCurrent, setSelection, initialiseGrid } from "./interface";
+import { bpmSource$, gridClicks$, pauseClicks$, setCurrent, setSelection, initialiseGrid } from "./interface";
 import SoundInterface from "./SoundInterface";
 import Instrument from "./Instrument";
 import CellClick from "./CellClick";
+import State from "./State";
 import { SoundManager } from "./SoundManager";
 
 const STEPS = 16;
 const DEFAULT_BPM = 60;
 
-const bpmToInterval = (bpm: number) => {
-  return (60 / bpm) * 250;
+const bpmToInterval = (bpm: number): State => {
+  return { bpm: (60 / bpm) * 250, paused: false };
 };
 
 const sm: SoundInterface = new SoundManager(STEPS);
@@ -21,8 +22,14 @@ initialiseGrid();
 
 const steps$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
 
-steps$.pipe(
-  switchMap((bpm: number) => interval(bpm)),
+const actions$ = merge(steps$, pauseClicks$);
+actions$.pipe(
+  tap(e => console.log(e)),
+  switchMap(state => {
+    return state.paused
+      ? NEVER
+      : interval(state.bpm)
+  }),
   take(STEPS),
   repeat(),
   v => v

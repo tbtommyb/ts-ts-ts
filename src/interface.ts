@@ -1,14 +1,15 @@
 import { fromEvent, Observable } from "rxjs";
+import { mapTo, tap, scan, startWith } from "rxjs/operators";
 import Instrument from "./Instrument";
+import State from "./State";
 
 // TODO: replace with React
-const bpmInput = document.getElementById("bpm");
-if (bpmInput == null) {
-  throw new Error("Could not find BPM element")
-}
-const grid = document.getElementById("grid");
-if (grid == null) {
-  throw new Error("Could not find grid element")
+const getElem = (id: string): HTMLElement => {
+  const elem = document.getElementById(id);
+  if (elem == null) {
+    throw new Error(`Could not find element ${id}`);
+  }
+  return elem;
 }
 
 export const resetCurrent = () => {
@@ -34,8 +35,12 @@ export const setSelection = (id: string) => {
   cell.classList.toggle("selected");
 };
 
-export const bpmSource$: Observable<Event> = fromEvent(bpmInput, "input");
-export const gridClicks$: Observable<Event> = fromEvent(grid, "click");
+export const bpmSource$: Observable<Event> = fromEvent(getElem("bpm"), "input");
+export const gridClicks$: Observable<Event> = fromEvent(getElem("grid"), "click");
+export const pauseClicks$: Observable<State> = fromEvent(getElem("pause"), "click")
+  .pipe(
+    scan((acc: State, curr) => Object.assign({}, acc, { paused: !acc.paused }), { paused: false })
+  );
 
 export const initialiseGrid = () => {
   for (let instrument in Instrument) {
@@ -55,6 +60,6 @@ export const initialiseGrid = () => {
       wrapper.appendChild(cell);
     }
     rowElement.appendChild(wrapper);
-    grid.appendChild(rowElement);
+    getElem("grid").appendChild(rowElement);
   };
 };
