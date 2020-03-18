@@ -10,7 +10,6 @@
   display: flex;
   height: 2em;
   align-items: center;
-  align-items: center;
   justify-content: space-between;
 }
 
@@ -60,7 +59,7 @@ div {
 }
 
 .label.instrument-label {
-  width: 100%;
+  width: 20%;
   text-align: right;
 }
 
@@ -71,6 +70,11 @@ div {
 .bpm-input input {
   font-size: 1.2em;
   width: 3em;
+}
+
+.cells-row {
+  display: flex;
+  width: 80%;
 }
 
 #name {
