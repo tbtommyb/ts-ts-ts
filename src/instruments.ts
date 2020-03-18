@@ -1,4 +1,4 @@
-enum Instrument {
+enum Instruments {
   ClosedHH = "ClosedHH",
   OpenHH = "OpenHH",
   Rimshot = "Rimshot",
@@ -10,4 +10,4 @@ enum Instrument {
   Kick = "Kick"
 };
 
-export default Instrument;
+export default Instruments;
