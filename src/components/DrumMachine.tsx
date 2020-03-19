@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import Instruments from "../instruments";
 
 import Grid from "./Grid";
@@ -7,7 +7,7 @@ interface DrumMachineProps {
   instruments: Instruments
 }
 
-const DrumMachine: React.SFC<DrumMachineProps> = props => {
+const DrumMachine: FC<DrumMachineProps> = props => {
   return (
     <div id="grid" className="centre">
       <div className="row bpm-input">

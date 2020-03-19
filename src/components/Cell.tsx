@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 interface CellProps {
@@ -7,7 +7,7 @@ interface CellProps {
   handleClick(ident: string): any
 }
 
-const Cell: React.SFC<CellProps> = ({ ident, selected, handleClick }) => {
+const Cell: FC<CellProps> = ({ ident, selected, handleClick }) => {
   const styles = cx("cell", selected && "selected");
 
   return (

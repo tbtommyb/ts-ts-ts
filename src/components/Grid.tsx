@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import Instruments from "../instruments";
 import Cell from "./Cell";
@@ -11,7 +11,7 @@ interface GridProps {
 }
 
 
-const Grid: React.SFC<GridProps> = props => {
+const Grid: FC<GridProps> = props => {
   const activeCells = useSelector(state => state.cells.activeCells;)
   const dispatch = useDispatch();
   const { instruments } = props;
