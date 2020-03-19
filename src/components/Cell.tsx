@@ -1,17 +1,18 @@
 import React, { FC } from "react";
 import cx from "classnames";
+import { CellIdent } from "../store/types";
 
 interface CellProps {
-  ident: string
+  ident: CellIdent
   selected: boolean
-  handleClick(ident: string): any
+  handleClick(ident: CellIdent): any
 }
 
 const Cell: FC<CellProps> = ({ ident, selected, handleClick }) => {
   const styles = cx("cell", selected && "selected");
 
   return (
-    <div className={styles} id={ident} key={ident} onClick={() => handleClick(ident)}></div>
+    <div className={styles} onClick={() => handleClick(ident)}></div>
   );
 
 };

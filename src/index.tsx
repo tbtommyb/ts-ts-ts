@@ -11,7 +11,7 @@ const store = createStore(drumMachine);
 
 ReactDOM.render(
   <Provider store={store}>
-    <DrumMachine instruments={instruments} />
+    <DrumMachine instruments={Object.values(instruments)} />
   </Provider>,
   document.getElementById("app")
 );

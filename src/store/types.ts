@@ -1,18 +1,14 @@
-export interface Cell {
-  ident: string
-  selected: boolean
-  active: boolean
-}
+export type CellIdent = string;
 
 export interface DrumMachineState {
-  activeCells: Set<Cell>
+  activeCells: Set<CellIdent>
 }
 
 export const TOGGLE_CELL = "TOGGLE_CELL";
 
 interface ToggleCellAction {
   type: typeof TOGGLE_CELL
-  payload: Cell
+  payload: CellIdent
 }
 
 export type DrumMachineTypes = ToggleCellAction

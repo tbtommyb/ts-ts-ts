@@ -1,9 +1,8 @@
 import { combineReducers } from "redux";
-import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL } from "./types";
-import { TOGGLE_CELL } from "./actions";
+import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL, CellIdent } from "./types";
 
 const initialState: DrumMachineState = {
-  activeCells: new Set()
+  activeCells: new Set<CellIdent>()
 }
 
 export function cellsReducer(state = initialState, action: DrumMachineTypes): DrumMachineState {

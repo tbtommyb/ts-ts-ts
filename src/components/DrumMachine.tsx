@@ -4,7 +4,7 @@ import Instruments from "../instruments";
 import Grid from "./Grid";
 
 interface DrumMachineProps {
-  instruments: Instruments
+  instruments: Array<Instruments>
 }
 
 const DrumMachine: FC<DrumMachineProps> = props => {
