@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
-import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL, CellIdent } from "./types";
+import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL, TICK, CellIdent } from "./types";
 
 const initialState: DrumMachineState = {
-  activeCells: new Set<CellIdent>()
+  activeCells: new Set<CellIdent>(),
+  step: 0
 }
 
-export function cellsReducer(state = initialState, action: DrumMachineTypes): DrumMachineState {
+export function rootReducer(state = initialState, action: DrumMachineTypes): DrumMachineState {
   switch (action.type) {
     case TOGGLE_CELL:
       let newState = new Set(state.activeCells);
@@ -15,13 +15,11 @@ export function cellsReducer(state = initialState, action: DrumMachineTypes): Dr
         newState.add(action.payload);
       }
       return { ...state, activeCells: newState };
+    case TICK:
+      return { ...state, step: action.step };
     default:
       return state
   }
 }
 
-const rootReducer = combineReducers({ cells: cellsReducer });
-
 export type RootState = ReturnType<typeof rootReducer>;
-
-export default rootReducer;

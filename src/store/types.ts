@@ -2,6 +2,7 @@ export type CellIdent = string;
 
 export interface DrumMachineState {
   activeCells: Set<CellIdent>
+  step: number
 }
 
 export const TOGGLE_CELL = "TOGGLE_CELL";
@@ -11,4 +12,11 @@ interface ToggleCellAction {
   payload: CellIdent
 }
 
-export type DrumMachineTypes = ToggleCellAction
+export const TICK = "TICK";
+
+interface TickAction {
+  type: typeof TICK
+  step: number
+}
+
+export type DrumMachineTypes = ToggleCellAction | TickAction;

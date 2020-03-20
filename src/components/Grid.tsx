@@ -14,7 +14,8 @@ interface GridProps {
 
 
 const Grid: FC<GridProps> = props => {
-  const activeCells = useSelector((state: RootState) => state.cells.activeCells)
+  const activeCells = useSelector((state: RootState) => state.activeCells);
+  const step = useSelector((state: RootState) => state.step);
   const dispatch = useDispatch();
   const { instruments } = props;
   const cellArray = [...Array(numCells).keys()];
@@ -28,7 +29,7 @@ const Grid: FC<GridProps> = props => {
           <div className="cells-row"> {
             cellArray.map(position => {
               let ident = `cell-${instrument}-${position}`;
-              return <Cell key={ident} ident={ident} selected={activeCells.has(ident)} handleClick={toggle} />
+              return <Cell key={ident} ident={ident} selected={activeCells.has(ident)} current={position === step} handleClick={toggle} />
             })
           }</div>
         </div>
