@@ -22,8 +22,7 @@ const steps$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
 steps$.pipe(
   switchMap((bpm: number) => interval(bpm)),
   take(STEPS),
-  repeat(),
-  v => v
+  repeat()
 ).subscribe(x => store.dispatch(tick(x)));
 
 ReactDOM.render(
