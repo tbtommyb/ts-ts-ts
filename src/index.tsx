@@ -8,7 +8,7 @@ import { take, repeat, switchMap } from "rxjs/operators";
 
 import DrumMachine from "./components/DrumMachine";
 import instruments from "./instruments";
-import { tick } from "./store/actions";
+import { step } from "./store/actions";
 
 const store = createStore(rootReducer);
 
@@ -23,7 +23,7 @@ steps$.pipe(
   switchMap((bpm: number) => interval(bpm)),
   take(STEPS),
   repeat()
-).subscribe(x => store.dispatch(tick(x)));
+).subscribe(x => store.dispatch(step(x)));
 
 ReactDOM.render(
   <Provider store={store}>

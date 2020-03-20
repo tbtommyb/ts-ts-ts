@@ -1,7 +1,6 @@
-import { CellIdent, TICK, TOGGLE_CELL, DrumMachineTypes } from "./types";
+import { CellIdent, STEP, TOGGLE_CELL, DrumMachineTypes } from "./types";
 import { interval } from "rxjs";
 import { take, repeat, switchMap, mapTo } from "rxjs/operators";
-import { ofType } from "redux-observable";
 
 export function toggleCell(cell: CellIdent): DrumMachineTypes {
   return {
@@ -10,9 +9,9 @@ export function toggleCell(cell: CellIdent): DrumMachineTypes {
   }
 }
 
-export function tick(step: number): DrumMachineTypes {
+export function step(step: number): DrumMachineTypes {
   return {
-    type: TICK,
+    type: STEP,
     step
   }
 }

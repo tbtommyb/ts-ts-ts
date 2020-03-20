@@ -1,4 +1,4 @@
-import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL, TICK, CellIdent } from "./types";
+import { DrumMachineState, DrumMachineTypes, TOGGLE_CELL, STEP, CellIdent } from "./types";
 
 const initialState: DrumMachineState = {
   activeCells: new Set<CellIdent>(),
@@ -15,7 +15,7 @@ export function rootReducer(state = initialState, action: DrumMachineTypes): Dru
         newState.add(action.payload);
       }
       return { ...state, activeCells: newState };
-    case TICK:
+    case STEP:
       return { ...state, step: action.step };
     default:
       return state

@@ -12,11 +12,11 @@ interface ToggleCellAction {
   payload: CellIdent
 }
 
-export const TICK = "TICK";
+export const STEP = "STEP";
 
-interface TickAction {
-  type: typeof TICK
+interface StepAction {
+  type: typeof STEP
   step: number
 }
 
-export type DrumMachineTypes = ToggleCellAction | TickAction;
+export type DrumMachineTypes = ToggleCellAction | StepAction;
