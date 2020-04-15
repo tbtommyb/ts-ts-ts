@@ -1,29 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
+import { createEpicMiddleware } from "redux-observable";
 import { rootReducer } from "./store/reducers";
-import { BehaviorSubject, interval } from "rxjs";
-import { take, repeat, switchMap } from "rxjs/operators";
+import rootEpic from "./store/epics";
+import { DrumMachineTypes } from "./store/types";
 
 import DrumMachine from "./components/DrumMachine";
 import instruments from "./instruments";
 import { step } from "./store/actions";
 
-const store = createStore(rootReducer);
+const epicMiddleware = createEpicMiddleware<DrumMachineTypes>();
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMiddleware)));
 
-const STEPS = 16;
-const DEFAULT_BPM = 60;
-const bpmToInterval = (bpm: number) => {
-  return (60 / bpm) * 250;
-};
-
-const steps$ = new BehaviorSubject(bpmToInterval(DEFAULT_BPM));
-steps$.pipe(
-  switchMap((bpm: number) => interval(bpm)),
-  take(STEPS),
-  repeat()
-).subscribe(x => store.dispatch(step(x)));
+epicMiddleware.run(rootEpic);
 
 ReactDOM.render(
   <Provider store={store}>

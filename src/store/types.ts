@@ -3,6 +3,7 @@ export type CellIdent = string;
 export interface DrumMachineState {
   activeCells: Set<CellIdent>
   step: number
+  bpm: number
 }
 
 export const TOGGLE_CELL = "TOGGLE_CELL";
@@ -16,7 +17,14 @@ export const STEP = "STEP";
 
 interface StepAction {
   type: typeof STEP
-  step: number
+  payload: number
 }
 
-export type DrumMachineTypes = ToggleCellAction | StepAction;
+export const SET_BPM = "SET_BPM";
+
+export interface SetBpmAction {
+  type: typeof SET_BPM
+  payload: number
+}
+
+export type DrumMachineTypes = ToggleCellAction | StepAction | SetBpmAction;
