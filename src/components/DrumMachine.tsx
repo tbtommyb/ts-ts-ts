@@ -4,8 +4,12 @@ import { BehaviorSubject } from "rxjs";
 import Instruments from "../instruments";
 import { setBpm } from "../store/actions";
 import { RootState } from "../store/reducers";
+import ISoundManager from "../ISoundManager";
+import HowlSoundManager from "../HowlSoundManager";
 
 import Grid from "./Grid";
+
+const css = require("./styles/app.css");
 
 interface DrumMachineProps {
   instruments: Array<Instruments>

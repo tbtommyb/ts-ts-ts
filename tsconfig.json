@@ -4,9 +4,12 @@
     "esModuleInterop": true,
     "strict": true,
     "sourceMap": true,
-    "target": "es2017",
+    "target": "ES5",
     "jsx": "react",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "lib": ["dom", "es5", "scripthost", "es2017"],
+    "downlevelIteration": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],

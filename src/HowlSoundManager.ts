@@ -1,6 +1,6 @@
 import { Howl, Howler } from "howler";
-import SoundInterface from "./SoundInterface";
-import Instrument from "./Instrument";
+import ISoundManager from "./ISoundManager";
+import Instruments from "./instruments";
 import Sound from "./Sound";
 
 const kick = new Howl({ src: require("./sounds/bd01.wav") });
@@ -30,23 +30,23 @@ class HowlSound implements Sound {
   }
 }
 
-export class SoundManager implements SoundInterface {
-  tracks: Map<Instrument, Sound>;
-  beats: Array<Set<Instrument>>;
+export default class HowlSoundManager implements ISoundManager {
+  tracks: Map<Instruments, Sound>;
+  beats: Array<Set<Instruments>>;
 
   constructor(steps: number) {
     // TODO: need to figure out best place to initialise Audio objects
-    this.tracks = new Map<Instrument, Sound>();
-    this.tracks.set(Instrument.Kick, new HowlSound(kick));
-    this.tracks.set(Instrument.ClosedHH, new HowlSound(closedHH));
-    this.tracks.set(Instrument.OpenHH, new HowlSound(openHH));
-    this.tracks.set(Instrument.Clap, new HowlSound(clap));
-    this.tracks.set(Instrument.HiTom, new HowlSound(hiTom));
-    this.tracks.set(Instrument.MediumTom, new HowlSound(medTom));
-    this.tracks.set(Instrument.LowTom, new HowlSound(lowTom));
-    this.tracks.set(Instrument.Rimshot, new HowlSound(rimshot));
-    this.tracks.set(Instrument.Snare, new HowlSound(snare));
-    this.beats = new Array<Set<Instrument>>(steps);
+    this.tracks = new Map<Instruments, Sound>();
+    this.tracks.set(Instruments.Kick, new HowlSound(kick));
+    this.tracks.set(Instruments.ClosedHH, new HowlSound(closedHH));
+    this.tracks.set(Instruments.OpenHH, new HowlSound(openHH));
+    this.tracks.set(Instruments.Clap, new HowlSound(clap));
+    this.tracks.set(Instruments.HiTom, new HowlSound(hiTom));
+    this.tracks.set(Instruments.MediumTom, new HowlSound(medTom));
+    this.tracks.set(Instruments.LowTom, new HowlSound(lowTom));
+    this.tracks.set(Instruments.Rimshot, new HowlSound(rimshot));
+    this.tracks.set(Instruments.Snare, new HowlSound(snare));
+    this.beats = new Array<Set<Instruments>>(steps);
   }
 
   trigger(beat: number) {
@@ -58,9 +58,9 @@ export class SoundManager implements SoundInterface {
     });
   }
 
-  toggle(sound: Instrument, beat: number) {
+  toggle(sound: Instruments, beat: number) {
     if (this.beats[beat] === undefined) {
-      this.beats[beat] = new Set<Instrument>();
+      this.beats[beat] = new Set<Instruments>();
     }
     if (this.beats[beat].has(sound)) {
       this.beats[beat].delete(sound);

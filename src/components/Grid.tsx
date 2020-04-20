@@ -17,6 +17,7 @@ const Grid: FC<GridProps> = props => {
   const activeCells = useSelector((state: RootState) => state.activeCells);
   const step = useSelector((state: RootState) => state.step);
   const dispatch = useDispatch();
+
   const { instruments } = props;
   const cellArray = [...Array(numCells).keys()];
   const toggle = (ident: CellIdent) => { dispatch(toggleCell(ident)); }
