@@ -1,4 +1,4 @@
-import React, { FC, Component } from "react";
+import React, { FC, Component, useEffect, ChangeEvent } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { BehaviorSubject } from "rxjs";
 import Instruments from "../instruments";
@@ -15,7 +15,11 @@ const DrumMachine: FC<DrumMachineProps> = ({ instruments }) => {
   const bpm = useSelector((state: RootState) => state.bpm);
   const dispatch = useDispatch();
 
-  const handleBpmSet = (e) => {
+  useEffect(() => {
+    dispatch(setBpm(bpm));
+  }, []);
+
+  const handleBpmChange = (e: ChangeEvent<{ value: string }>) => {
     e.preventDefault();
 
     dispatch(setBpm(+e.target.value));
@@ -28,7 +32,7 @@ const DrumMachine: FC<DrumMachineProps> = ({ instruments }) => {
         <p id="pause">pause</p>
         <div>
           <label htmlFor="bpm" className="label bpm-label">BPM</label>
-      <input id="bpm" name="bpm" type="number" min="1" max="200" value={bpm} onChange={handleBpmSet} />
+          <input id="bpm" name="bpm" type="number" min="1" max="200" value={bpm} onChange={handleBpmChange} />
         </div>
       </div>
       <Grid instruments={instruments} />
