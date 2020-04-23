@@ -13,7 +13,7 @@ A drum machine build using RxJS and TypeScript. See it running [here](https://ww
 ## Build
 
 ```
-$ parcel build
+$ yarn build
 ```
 
 ### Building for deploying on blog
