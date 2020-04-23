@@ -1,6 +1,15 @@
 import { ofType } from "redux-observable";
 import { Observable, interval } from "rxjs";
-import { tap, take, takeWhile, repeat, switchMap, map } from "rxjs/operators";
+import {
+  tap,
+  take,
+  takeWhile,
+  repeat,
+  switchMap,
+  map,
+  debounceTime,
+  distinctUntilChanged
+} from "rxjs/operators";
 import { DrumMachineTypes, SET_BPM, SetBpmAction } from "./types";
 import { step } from "./actions";
 
@@ -13,7 +22,9 @@ const bpmEpic = (
   action$: Observable<DrumMachineTypes>
 ): Observable<DrumMachineTypes> =>
   action$.pipe(
-  ofType<DrumMachineTypes, SetBpmAction>(SET_BPM),
+    ofType<DrumMachineTypes, SetBpmAction>(SET_BPM),
+    debounceTime(500),
+    distinctUntilChanged(),
     switchMap((action: SetBpmAction) =>
       interval(bpmToInterval(action.payload)).pipe(
         take(STEPS),
