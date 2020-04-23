@@ -19,11 +19,11 @@ const store = createStore(rootReducer, composeEnhancers(applyMiddleware(epicMidd
 
 epicMiddleware.run(rootEpic);
 
-const sm: ISoundManager = new HowlSoundManager(16); // fixme
+const sm: ISoundManager = new HowlSoundManager();
 
 ReactDOM.render(
   <Provider store={store}>
-    <DrumMachine instruments={Object.values(instruments)} />
+    <DrumMachine instruments={Object.values(instruments)} soundManager={sm} />
   </Provider>,
   document.getElementById("app")
 );

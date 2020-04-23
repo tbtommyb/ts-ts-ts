@@ -1,8 +1,7 @@
 import React, { FC } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Instruments from "../instruments";
 import Cell from "./Cell";
-import { toggleCell } from "../store/actions";
 import { CellIdent } from "../store/types";
 import { RootState } from "../store/reducers";
 
@@ -10,17 +9,15 @@ const numCells = 16;
 
 interface GridProps {
   instruments: Array<Instruments>
+  onClick: (ident: CellIdent) => any
 }
-
 
 const Grid: FC<GridProps> = props => {
   const activeCells = useSelector((state: RootState) => state.activeCells);
   const step = useSelector((state: RootState) => state.step);
-  const dispatch = useDispatch();
 
   const { instruments } = props;
   const cellArray = [...Array(numCells).keys()];
-  const toggle = (ident: CellIdent) => { dispatch(toggleCell(ident)); }
 
   return (
     <div>{
@@ -30,7 +27,7 @@ const Grid: FC<GridProps> = props => {
           <div className="cells-row"> {
             cellArray.map(position => {
               let ident = `cell-${instrument}-${position}`;
-              return <Cell key={ident} ident={ident} selected={activeCells.has(ident)} current={position === step} handleClick={toggle} />
+              return <Cell key={ident} ident={ident} selected={activeCells.has(ident)} current={position === step} handleClick={props.onClick} />
             })
           }</div>
         </div>

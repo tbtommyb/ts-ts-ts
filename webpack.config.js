@@ -21,7 +21,7 @@ module.exports = {
     rules: [
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.ts(x?)$/,
@@ -34,10 +34,7 @@ module.exports = {
       },
       {
         test: /\.(mp3|wav)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]'
-        }
+        loader: "file-loader"
       },
       {
         enforce: "pre",

@@ -3,15 +3,15 @@ import ISoundManager from "./ISoundManager";
 import Instruments from "./instruments";
 import Sound from "./Sound";
 
-const kick = new Howl({ src: require("./sounds/bd01.wav") });
-const closedHH = new Howl({ src: require("./sounds/hh01.wav") });
-const openHH = new Howl({ src: require("./sounds/oh01.wav") });
-const clap = new Howl({ src: require("./sounds/cp01.wav") });
-const hiTom = new Howl({ src: require("./sounds/ht01.wav") });
-const medTom = new Howl({ src: require("./sounds/mt01.wav") });
-const lowTom = new Howl({ src: require("./sounds/lt01.wav") });
-const rimshot = new Howl({ src: require("./sounds/rs01.wav") });
-const snare = new Howl({ src: require("./sounds/sd04.wav") });
+const kick = new Howl({ src: "/bd01.mp3" });
+const closedHH = new Howl({ src: "/hh01.mp3" });
+const openHH = new Howl({ src: "/oh01.mp3" });
+const clap = new Howl({ src: "/cp01.mp3" });
+const hiTom = new Howl({ src: "/ht01.mp3" });
+const medTom = new Howl({ src: "/mt01.mp3" });
+const lowTom = new Howl({ src: "/lt01.mp3" });
+const rimshot = new Howl({ src: "/rs01.mp3" });
+const snare = new Howl({ src: "/sd04.mp3" });
 
 class HowlSound implements Sound {
   sound: Howl;
@@ -34,7 +34,7 @@ export default class HowlSoundManager implements ISoundManager {
   tracks: Map<Instruments, Sound>;
   beats: Array<Set<Instruments>>;
 
-  constructor(steps: number) {
+  constructor() {
     // TODO: need to figure out best place to initialise Audio objects
     this.tracks = new Map<Instruments, Sound>();
     this.tracks.set(Instruments.Kick, new HowlSound(kick));
@@ -46,7 +46,7 @@ export default class HowlSoundManager implements ISoundManager {
     this.tracks.set(Instruments.LowTom, new HowlSound(lowTom));
     this.tracks.set(Instruments.Rimshot, new HowlSound(rimshot));
     this.tracks.set(Instruments.Snare, new HowlSound(snare));
-    this.beats = new Array<Set<Instruments>>(steps);
+    this.beats = new Array<Set<Instruments>>();
   }
 
   trigger(beat: number) {
