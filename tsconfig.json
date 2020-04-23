@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ES6",
+    "esModuleInterop": true,
     "strict": true,
-    "baseUrl": "./src",
-    "paths": {
-      "~*": ["./*"]
-    },
-    "target": "es6"
+    "sourceMap": true,
+    "target": "ES5",
+    "jsx": "react",
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "lib": ["dom", "es5", "scripthost", "es2017"],
+    "downlevelIteration": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"],
