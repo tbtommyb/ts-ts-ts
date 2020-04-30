@@ -1,6 +1,6 @@
-import { Howl, Howler } from "howler";
-import ISoundManager from "./ISoundManager";
+import { Howl } from "howler";
 import Instruments from "./instruments";
+import ISoundManager from "./ISoundManager";
 import Sound from "./Sound";
 
 const kick = new Howl({ src: "/bd01.mp3" });
@@ -54,7 +54,7 @@ export default class HowlSoundManager implements ISoundManager {
       return;
     }
     this.beats[beat].forEach(sound => {
-      this.tracks.get(sound) ?.trigger();
+      this.tracks.get(sound)?.trigger();
     });
   }
 

@@ -1,6 +1,4 @@
-import { CellIdent, STEP, TOGGLE_CELL, SET_BPM, DrumMachineTypes } from "./types";
-import { interval } from "rxjs";
-import { take, repeat, switchMap, mapTo } from "rxjs/operators";
+import { CellIdent, DrumMachineTypes, SET_BPM, STEP, TOGGLE_CELL } from "./types";
 
 export function toggleCell(cell: CellIdent): DrumMachineTypes {
   return {

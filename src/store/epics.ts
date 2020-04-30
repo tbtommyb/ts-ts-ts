@@ -1,17 +1,8 @@
 import { ofType } from "redux-observable";
-import { Observable, interval } from "rxjs";
-import {
-  tap,
-  take,
-  takeWhile,
-  repeat,
-  switchMap,
-  map,
-  debounceTime,
-  distinctUntilChanged
-} from "rxjs/operators";
-import { DrumMachineTypes, SET_BPM, SetBpmAction } from "./types";
+import { interval, Observable } from "rxjs";
+import { debounceTime, distinctUntilChanged, map, repeat, switchMap, take } from "rxjs/operators";
 import { step } from "./actions";
+import { DrumMachineTypes, SetBpmAction, SET_BPM } from "./types";
 
 const STEPS = 16;
 const bpmToInterval = (bpm: number) => {
